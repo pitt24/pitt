@@ -1,0 +1,41 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definir una función 2D que representará la "frontera" del volumen 3D
+def boundary_function(x, y):
+    return np.sin(np.sqrt(x**2 + y**2))
+
+# Crear una malla 2D
+x = np.linspace(-5, 5, 400)
+y = np.linspace(-5, 5, 400)
+x, y = np.meshgrid(x, y)
+
+# Calcular los valores de la función en la malla 2D
+z = boundary_function(x, y)
+
+# Visualizar la función 2D
+plt.figure()
+plt.contourf(x, y, z, 50, cmap='viridis')
+plt.colorbar()
+plt.title('Función en la Frontera 2D')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.show()
+
+# Ahora vamos a interpretar esta función 2D como una "sombra" de un volumen 3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Crear una malla 3D donde Z es función de X y Y
+x_3d = np.linspace(-5, 5, 50)
+y_3d = np.linspace(-5, 5, 50)
+z_3d = boundary_function(x_3d[:, None], y_3d[None, :])
+X, Y = np.meshgrid(x_3d, y_3d)
+
+# Graficar la "sombra" 3D
+ax.plot_surface(X, Y, z_3d, cmap='viridis')
+ax.set_title('Interpretación 3D de la Frontera 2D')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+plt.show()
